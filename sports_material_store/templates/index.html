@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}SportStack Sports Marketplace{% endblock %}
+{% block content %}
+<section class="hero marketplace-hero">
+  <div class="hero-copy reveal-up">
+    <span class="eyebrow">sports-only marketplace</span>
+    <h1>Amazon/Flipkart-style shopping flow for sports materials.</h1>
+    <p>Browse a big sports product dump, compare stock, add to cart, checkout locally, and let approved dealers add their own sports inventory.</p>
+    <div class="hero-actions">
+      <a href="#products" class="primary-cta">Shop Sports Gear</a>
+      <a href="{{ url_for('dealer_register') }}" class="secondary-cta">Register Dealer</a>
+    </div>
+  </div>
+  <div class="hero-stack reveal-up delay-1" aria-label="Featured sports cards">
+    {% for product in featured[:4] %}
+      <article class="floating-card" style="--i:{{ loop.index }}">
+        <img src="{{ image_src(product) }}" onerror="this.src='{{ fallback_img }}'" alt="{{ product['name'] }}">
+        <strong>{{ product['name'] }}</strong>
+        <span>{{ rupee(product['price']) }} • {{ product['stock'] }} left</span>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="service-row">
+  <div><strong>Only sports materials</strong><span>No unrelated products allowed</span></div>
+  <div><strong>Dealer marketplace</strong><span>Register, login, add products</span></div>
+  <div><strong>Internet product pictures</strong><span>Mapped by product keywords</span></div>
+  <div><strong>3D product feel</strong><span>Tilt cards and product detail view</span></div>
+</section>
+
+<section class="filters-panel" id="products">
+  <form method="get" action="{{ url_for('index') }}" class="filter-form">
+    <input type="hidden" name="q" value="{{ q }}">
+    <label>Category
+      <select name="category">
+        <option value="">All sports categories</option>
+        {% for category in categories %}
+          <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Dealer
+      <select name="dealer">
+        <option value="">All dealers</option>
+        {% for dealer in dealers %}
+          <option value="{{ dealer['dealer_name'] }}" {% if selected_dealer == dealer['dealer_name'] %}selected{% endif %}>{{ dealer['dealer_name'] }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Sort
+      <select name="sort">
+        <option value="featured" {% if sort == 'featured' %}selected{% endif %}>Featured</option>
+        <option value="rating" {% if sort == 'rating' %}selected{% endif %}>Top Rated</option>
+        <option value="price_low" {% if sort == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+        <option value="price_high" {% if sort == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+        <option value="stock" {% if sort == 'stock' %}selected{% endif %}>Most Stock</option>
+        <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+        <option value="name" {% if sort == 'name' %}selected{% endif %}>Name</option>
+      </select>
+    </label>
+    <button type="submit">Apply</button>
+  </form>
+  <p class="result-count">Showing <strong>{{ products|length }}</strong> sports products{% if q %} for “{{ q }}”{% endif %}.</p>
+</section>
+
+<section class="product-grid">
+  {% for product in products %}
+    <article class="product-card tilt-card reveal-up">
+      <a href="{{ url_for('product_page', slug=product['slug']) }}" class="product-image-wrap">
+        <img class="product-image" src="{{ image_src(product) }}" onerror="this.src='{{ fallback_img }}'" alt="{{ product['name'] }}">
+        <span class="stock-badge {% if product['stock'] <= 5 %}low{% endif %}">{{ product['stock'] }} in stock</span>
+      </a>
+      <div class="product-body">
+        <span class="category-chip">{{ product['category'] }}</span>
+        <h2><a href="{{ url_for('product_page', slug=product['slug']) }}">{{ product['name'] }}</a></h2>
+        <p class="dealer-line">Sold by {{ product['dealer_name'] }}</p>
+        <div class="rating-row"><span>★ {{ '%.1f'|format(product['rating']) }}</span><small>Verified sports item</small></div>
+        <p class="price">{{ rupee(product['price']) }}</p>
+        <p class="short-desc">{{ product['description'] }}</p>
+        <form class="add-cart-form" action="{{ url_for('cart_add') }}" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <input type="hidden" name="product_id" value="{{ product['id'] }}">
+          <input type="number" name="qty" min="1" max="{{ product['stock'] }}" value="1" {% if product['stock'] == 0 %}disabled{% endif %}>
+          <button type="submit" {% if product['stock'] == 0 %}disabled{% endif %}>Add to Cart</button>
+        </form>
+      </div>
+    </article>
+  {% else %}
+    <div class="empty-state">
+      <h2>No sports products found</h2>
+      <p>Try another search or category filter.</p>
+    </div>
+  {% endfor %}
+</section>
+{% endblock %}

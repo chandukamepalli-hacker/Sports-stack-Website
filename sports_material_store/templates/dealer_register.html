@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Dealer Registration | SportStack{% endblock %}
+{% block content %}
+<section class="auth-shell">
+  <div class="auth-copy">
+    <span class="eyebrow">seller onboarding</span>
+    <h1>Register as a sports material dealer</h1>
+    <p>Dealers can add only sports products. The website keeps dealer products separate from warehouse inventory.</p>
+    <ul class="tick-list">
+      <li>Add product name, price, stock and sports category</li>
+      <li>Use real-time internet pictures through product keywords</li>
+      <li>Manage stock from your own dealer dashboard</li>
+    </ul>
+  </div>
+  <form class="auth-card" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>Business Name<input name="business_name" required></label>
+    <label>Owner Name<input name="owner_name" required></label>
+    <label>Email<input type="email" name="email" required></label>
+    <label>Phone<input name="phone" required></label>
+    <label>Business Address<textarea name="address" required></textarea></label>
+    <label>Password<input type="password" name="password" minlength="6" required></label>
+    <button type="submit">Create Dealer Account</button>
+    <p>Already registered? <a href="{{ url_for('dealer_login') }}">Dealer login</a></p>
+  </form>
+</section>
+{% endblock %}

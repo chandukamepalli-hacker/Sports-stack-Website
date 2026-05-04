@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Dealer Dashboard | SportStack{% endblock %}
+{% block content %}
+<section class="dashboard-head">
+  <div>
+    <span class="eyebrow">dealer dashboard</span>
+    <h1>{{ dealer['business_name'] }}</h1>
+    <p>{{ dealer['owner_name'] }} • {{ dealer['email'] }} • Status: {{ dealer['status'] }}</p>
+  </div>
+  <form method="post" action="{{ url_for('dealer_logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <button class="secondary-button">Logout</button>
+  </form>
+</section>
+
+<section class="dashboard-grid">
+  <form class="panel-card product-form" method="post" enctype="multipart/form-data" action="{{ url_for('dealer_add_product') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <h2>Add sports product</h2>
+    <label>Product Name<input name="name" placeholder="Example: Pro Cricket Bat Size 6" required></label>
+    <label>Sports Category
+      <select name="category" required>
+        {% for category in categories %}
+          <option value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <div class="two-cols">
+      <label>Price ₹<input type="number" min="1" name="price" required></label>
+      <label>Stock<input type="number" min="0" name="stock" required></label>
+    </div>
+    <label>Description<textarea name="description" placeholder="Write product usage, material, and benefit" required></textarea></label>
+    <label>Image Keywords<input name="image_keywords" placeholder="cricket bat leather grip"></label>
+    <label>Direct Internet Image URL<input name="remote_image" placeholder="Optional: https://...jpg or .png"></label>
+    <label class="check-line"><input type="checkbox" name="use_remote_image"> Use this URL as the main product image</label>
+
+    <div class="image-dropzone" data-image-uploader>
+      <input type="file" name="image_file" accept=".png,.jpg,.jpeg,.webp,.gif,.svg,image/*">
+      <input type="hidden" name="cropped_image_data" data-cropped-output>
+      <div class="drop-copy"><strong>Drop primary image here</strong><span>Live preview + square crop/resize before save</span></div>
+      <div class="preview-box" data-image-preview></div>
+      <label class="crop-control">Crop zoom <input type="range" min="1" max="2.4" step="0.01" value="1" data-crop-zoom></label>
+    </div>
+
+    <div class="image-dropzone gallery-dropzone" data-gallery-uploader>
+      <input type="file" name="gallery_images" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.svg,image/*">
+      <div class="drop-copy"><strong>Drop gallery images</strong><span>Multiple shots for gallery and 360° viewer</span></div>
+      <div class="preview-grid" data-gallery-preview></div>
+    </div>
+
+    <label>Specs<textarea name="specs" placeholder="One spec per line or comma-separated"></textarea></label>
+    <button type="submit">Add Product</button>
+    <p class="form-note">Only sports categories are accepted. Upload your real image for exact matching, or use the verified generated image if you leave image fields empty.</p>
+  </form>
+
+  <div class="panel-card">
+    <h2>Your Listings</h2>
+    {% if products %}
+      <div class="dealer-list">
+        {% for product in products %}
+          {% set images = product_galleries.get(product['id'], []) %}
+          <article class="dealer-item">
+            <img src="{{ image_src(product) }}" onerror="this.src='{{ fallback_img }}'" alt="{{ product['name'] }}">
+            <div>
+              <strong>{{ product['name'] }}</strong>
+              <span>{{ product['category'] }} • {{ rupee(product['price']) }} • {{ product['stock'] }} stock</span>
+              <a href="{{ url_for('product_page', slug=product['slug']) }}">View Product</a>
+            </div>
+            <form method="post" enctype="multipart/form-data" action="{{ url_for('dealer_update_stock', product_id=product['id']) }}" class="inline-update stacked-update">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <input type="number" name="price" min="1" value="{{ product['price'] }}" aria-label="Price">
+              <input type="number" name="stock" min="0" value="{{ product['stock'] }}" aria-label="Stock">
+              <input type="url" name="remote_image" placeholder="Direct image URL" value="{{ product['remote_image'] }}">
+              <label class="check-line"><input type="checkbox" name="use_remote_image"> URL main</label>
+
+              <div class="image-dropzone compact-dropzone" data-image-uploader>
+                <input type="file" name="image_file" accept=".png,.jpg,.jpeg,.webp,.gif,.svg,image/*">
+                <input type="hidden" name="cropped_image_data" data-cropped-output>
+                <div class="drop-copy"><strong>Replace main image</strong><span>drag/drop or select</span></div>
+                <div class="preview-box" data-image-preview></div>
+                <label class="crop-control">Crop zoom <input type="range" min="1" max="2.4" step="0.01" value="1" data-crop-zoom></label>
+              </div>
+
+              <div class="image-dropzone compact-dropzone" data-gallery-uploader>
+                <input type="file" name="gallery_images" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.svg,image/*">
+                <div class="drop-copy"><strong>Add gallery images</strong><span>multiple allowed</span></div>
+                <div class="preview-grid" data-gallery-preview></div>
+              </div>
+              <button>Save</button>
+            </form>
+
+            <div class="listing-gallery">
+              {% for item in images[:8] %}
+                <div class="listing-gallery-item">
+                  <img src="{{ item.url }}" onerror="this.src='{{ fallback_img }}'" alt="{{ product['name'] }} gallery image">
+                  <span>{{ item.source }}{% if item.is_primary %} • primary{% endif %}</span>
+                  {% if not item.is_primary %}
+                    <form method="post" action="{{ url_for('dealer_gallery_primary', product_id=product['id'], image_id=item.id) }}">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                      <button type="submit">Set main</button>
+                    </form>
+                    <form method="post" action="{{ url_for('dealer_gallery_delete', product_id=product['id'], image_id=item.id) }}">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                      <button type="submit" class="text-danger">Delete</button>
+                    </form>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+
+            <form method="post" action="{{ url_for('dealer_delete_product', product_id=product['id']) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <button class="text-danger">Delete Product</button>
+            </form>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="muted">No dealer products yet. Add your first sports material.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

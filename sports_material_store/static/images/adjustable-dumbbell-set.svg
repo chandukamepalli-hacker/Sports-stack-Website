@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="420" viewBox="0 0 600 420" role="img" aria-label="DUMBBELL">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="1" stop-color="#e2e8f0"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="420" rx="44" fill="url(#bg)"/>
+      <circle cx="95" cy="85" r="58" fill="#475569" opacity=".13"/>
+      <circle cx="500" cy="330" r="72" fill="#475569" opacity=".12"/>
+      
+        <rect x="185" y="165" width="58" height="110" rx="18" fill="#111827"/>
+        <rect x="246" y="184" width="108" height="72" rx="18" fill="#475569"/>
+        <rect x="358" y="165" width="58" height="110" rx="18" fill="#111827"/>
+        <rect x="150" y="150" width="44" height="140" rx="18" fill="#475569"/>
+        <rect x="406" y="150" width="44" height="140" rx="18" fill="#475569"/>
+      <rect x="120" y="352" width="360" height="42" rx="21" fill="#0f172a" opacity=".92"/>
+      <text x="300" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">DUMBBELL</text>
+    </svg>

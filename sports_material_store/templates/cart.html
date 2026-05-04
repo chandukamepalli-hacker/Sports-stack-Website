@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Cart | SportStack{% endblock %}
+{% block content %}
+<section class="page-head">
+  <h1>Your Sports Cart</h1>
+  <p>Quantity updates are checked against live stock before checkout.</p>
+</section>
+
+{% if items %}
+<section class="cart-layout">
+  <div class="cart-items">
+    {% for item in items %}
+      {% set product = item.product %}
+      <article class="cart-line">
+        <img src="{{ image_src(product) }}" onerror="this.src='{{ fallback_img }}'" alt="{{ product['name'] }}">
+        <div>
+          <h2><a href="{{ url_for('product_page', slug=product['slug']) }}">{{ product['name'] }}</a></h2>
+          <p>{{ product['category'] }} • Sold by {{ product['dealer_name'] }}</p>
+          <strong>{{ rupee(product['price']) }}</strong>
+        </div>
+        <form method="post" action="{{ url_for('cart_update') }}" class="qty-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <input type="hidden" name="product_id" value="{{ product['id'] }}">
+          <input type="number" name="qty" min="0" max="{{ product['stock'] }}" value="{{ item.qty }}">
+          <button>Update</button>
+        </form>
+        <p class="line-total">{{ rupee(item.line_total) }}</p>
+        <form method="post" action="{{ url_for('cart_remove') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <input type="hidden" name="product_id" value="{{ product['id'] }}">
+          <button class="text-danger">Remove</button>
+        </form>
+      </article>
+    {% endfor %}
+  </div>
+
+  <aside class="checkout-card">
+    <h2>Demo Checkout</h2>
+    <p class="summary-total">Total: <strong>{{ rupee(total) }}</strong></p>
+    <form method="post" action="{{ url_for('checkout') }}" class="checkout-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label>Name<input name="customer_name" required></label>
+      <label>Email<input type="email" name="email" required></label>
+      <label>Phone<input name="phone" required></label>
+      <label>Address<textarea name="address" required></textarea></label>
+      <button type="submit">Place Demo Order</button>
+    </form>
+  </aside>
+</section>
+{% else %}
+<section class="empty-state">
+  <h2>Your cart is empty</h2>
+  <p>Add sports materials from the marketplace.</p>
+  <a class="primary-cta" href="{{ url_for('index') }}">Start Shopping</a>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="420" viewBox="0 0 600 420" role="img" aria-label="CRICKET BAT">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="1" stop-color="#e2e8f0"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="420" rx="44" fill="url(#bg)"/>
+      <circle cx="95" cy="85" r="58" fill="#f59e0b" opacity=".13"/>
+      <circle cx="500" cy="330" r="72" fill="#f59e0b" opacity=".12"/>
+      
+        <g transform="rotate(-22 300 210)">
+          <rect x="270" y="80" width="70" height="250" rx="28" fill="#f59e0b"/>
+          <rect x="292" y="308" width="26" height="110" rx="12" fill="#78350f"/>
+          <path d="M290 95 C340 90 354 138 330 188 L285 188 C265 145 260 105 290 95Z" fill="#fde68a" opacity=".55"/>
+        </g>
+      <rect x="120" y="352" width="360" height="42" rx="21" fill="#0f172a" opacity=".92"/>
+      <text x="300" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">CRICKET BAT</text>
+    </svg>

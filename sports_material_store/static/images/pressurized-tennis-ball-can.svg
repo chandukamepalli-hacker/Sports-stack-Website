@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="420" viewBox="0 0 600 420" role="img" aria-label="TENNIS BALLS">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="1" stop-color="#e2e8f0"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="420" rx="44" fill="url(#bg)"/>
+      <circle cx="95" cy="85" r="58" fill="#84cc16" opacity=".13"/>
+      <circle cx="500" cy="330" r="72" fill="#84cc16" opacity=".12"/>
+      
+        <rect x="230" y="95" width="135" height="230" rx="34" fill="#84cc16"/>
+        <ellipse cx="298" cy="96" rx="67" ry="24" fill="#bef264"/>
+        <circle cx="445" cy="210" r="58" fill="#d9f99d" stroke="#84cc16" stroke-width="8"/>
+        <path d="M410 188 C440 210 455 225 480 230" stroke="#fff" stroke-width="8" fill="none"/>
+      <rect x="120" y="352" width="360" height="42" rx="21" fill="#0f172a" opacity=".92"/>
+      <text x="300" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">TENNIS BALLS</text>
+    </svg>

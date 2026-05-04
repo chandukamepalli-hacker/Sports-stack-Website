@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{{ product['name'] }} | SportStack{% endblock %}
+{% block content %}
+{% set primary = gallery[0] %}
+<section class="detail-shell page-transition-panel">
+  <div class="detail-visual product-3d-stage product-gallery-stage" data-tilt-card data-gallery-viewer data-images='{{ gallery_urls|tojson }}'>
+    <div class="detail-badge">3D + 360° Gallery</div>
+    <div class="model-controls" aria-label="3D product controls">
+      <button type="button" data-gallery-prev>⟲ Prev</button>
+      <button type="button" data-spin-toggle>Auto 360°</button>
+      <button type="button" data-gallery-next>Next ⟳</button>
+      <button type="button" data-open-zoom>Zoom</button>
+    </div>
+
+    <div class="product-3d-object" id="product3dObject">
+      <span class="model-side model-side-left"></span>
+      <span class="model-side model-side-right"></span>
+      <div class="zoom-frame" data-zoom-frame>
+        <img id="galleryMainImage" data-main-gallery-image src="{{ primary.url }}" onerror="this.src='{{ fallback_img }}'" alt="{{ product['name'] }}">
+        <span class="zoom-hint">Move mouse to zoom • Use 360° controls</span>
+      </div>
+      <span class="model-floor"></span>
+    </div>
+
+    <div class="gallery-rail" aria-label="Product gallery thumbnails">
+      {% for item in gallery %}
+        <button type="button" class="gallery-thumb {% if loop.first %}active{% endif %}" data-gallery-index="{{ loop.index0 }}" title="{{ item.source }}">
+          <img src="{{ item.url }}" onerror="this.src='{{ fallback_img }}'" alt="{{ product['name'] }} image {{ loop.index }}">
+          <span>{{ item.source }}</span>
+        </button>
+      {% endfor %}
+    </div>
+    <div class="shine"></div>
+  </div>
+
+  <div class="detail-info reveal-up">
+    <span class="category-chip">{{ product['category'] }}</span>
+    <h1>{{ product['name'] }}</h1>
+    <p class="detail-rating">★ {{ '%.1f'|format(product['rating']) }} • Sold by {{ product['dealer_name'] }}</p>
+    <p class="detail-price">{{ rupee(product['price']) }}</p>
+    <p class="detail-desc">{{ product['description'] }}</p>
+    <ul class="spec-list">
+      {% for spec in specs %}
+        <li>{{ spec }}</li>
+      {% endfor %}
+    </ul>
+    <p class="stock-line {% if product['stock'] <= 5 %}low{% endif %}">{{ product['stock'] }} units available</p>
+    <form class="detail-cart add-cart-form" action="{{ url_for('cart_add') }}" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="hidden" name="product_id" value="{{ product['id'] }}">
+      <input type="number" name="qty" min="1" max="{{ product['stock'] }}" value="1" {% if product['stock'] == 0 %}disabled{% endif %}>
+      <button type="submit" {% if product['stock'] == 0 %}disabled{% endif %}>Add to Cart</button>
+      <a class="secondary-cta" href="{{ url_for('cart_view') }}">Go to Cart</a>
+    </form>
+    <div class="promise-box">
+      <strong>Real gallery support</strong>
+      <span>Admin and dealers can upload real product images, add gallery shots, and set a primary image. Seeded products include verified matching images plus generated 360° frames.</span>
+    </div>
+  </div>
+</section>
+
+<div class="zoom-modal" id="zoomModal" aria-hidden="true">
+  <button type="button" class="zoom-close" data-close-zoom>×</button>
+  <img src="{{ primary.url }}" onerror="this.src='{{ fallback_img }}'" alt="{{ product['name'] }} zoom view">
+</div>
+
+{% if related %}
+<section class="related-section page-transition-panel">
+  <h2>More {{ product['category'] }} products</h2>
+  <div class="mini-grid">
+    {% for item in related %}
+      <a class="mini-card" href="{{ url_for('product_page', slug=item['slug']) }}">
+        <img src="{{ image_src(item) }}" onerror="this.src='{{ fallback_img }}'" alt="{{ item['name'] }}">
+        <strong>{{ item['name'] }}</strong>
+        <span>{{ rupee(item['price']) }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

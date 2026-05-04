@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | SportStack{% endblock %}
+{% block content %}
+<section class="dashboard-head">
+  <div>
+    <span class="eyebrow">admin dashboard</span>
+    <h1>Marketplace Control Center</h1>
+    <p>Warehouse products: {{ products|length }} • Dealers: {{ dealers|length }} • Latest orders: {{ orders|length }}</p>
+  </div>
+  <form method="post" action="{{ url_for('admin_logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <button class="secondary-button">Logout</button>
+  </form>
+</section>
+
+<section class="admin-tabs">
+  <div class="panel-card wide-table">
+    <h2>Products</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Dealer</th><th>Price</th><th>Stock</th><th>Image/Gallery Controls</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for product in products %}
+            {% set images = product_galleries.get(product['id'], []) %}
+            <form id="admin-update-{{ product['id'] }}" method="post" enctype="multipart/form-data" action="{{ url_for('admin_update_stock') }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <input type="hidden" name="product_id" value="{{ product['id'] }}">
+              <input type="hidden" name="cropped_image_data" data-cropped-output form="admin-update-{{ product['id'] }}">
+            </form>
+            <tr>
+              <td><img class="table-img" src="{{ image_src(product) }}" onerror="this.src='{{ fallback_img }}'" alt="{{ product['name'] }}"></td>
+              <td><a href="{{ url_for('product_page', slug=product['slug']) }}">{{ product['name'] }}</a></td>
+              <td>{{ product['category'] }}</td>
+              <td>{{ product['dealer_name'] }}</td>
+              <td><input form="admin-update-{{ product['id'] }}" type="number" name="price" min="1" value="{{ product['price'] }}"></td>
+              <td><input form="admin-update-{{ product['id'] }}" type="number" name="stock" min="0" value="{{ product['stock'] }}"></td>
+              <td>
+                <input form="admin-update-{{ product['id'] }}" type="url" name="remote_image" placeholder="https://...jpg" value="{{ product['remote_image'] }}">
+                <label class="check-line"><input form="admin-update-{{ product['id'] }}" type="checkbox" name="use_remote_image"> URL main</label>
+                <div class="image-dropzone compact-dropzone" data-image-uploader data-form-id="admin-update-{{ product['id'] }}">
+                  <input form="admin-update-{{ product['id'] }}" type="file" name="image_file" accept=".png,.jpg,.jpeg,.webp,.gif,.svg,image/*">
+                  <div class="drop-copy"><strong>Replace main</strong><span>preview + crop</span></div>
+                  <div class="preview-box" data-image-preview></div>
+                  <label class="crop-control">Crop zoom <input type="range" min="1" max="2.4" step="0.01" value="1" data-crop-zoom></label>
+                </div>
+                <div class="image-dropzone compact-dropzone" data-gallery-uploader>
+                  <input form="admin-update-{{ product['id'] }}" type="file" name="gallery_images" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.svg,image/*">
+                  <div class="drop-copy"><strong>Add gallery</strong><span>multiple files</span></div>
+                  <div class="preview-grid" data-gallery-preview></div>
+                </div>
+                <div class="listing-gallery admin-gallery">
+                  {% for item in images[:8] %}
+                    <div class="listing-gallery-item">
+                      <img src="{{ item.url }}" onerror="this.src='{{ fallback_img }}'" alt="{{ product['name'] }} image">
+                      <span>{{ item.source }}{% if item.is_primary %} • primary{% endif %}</span>
+                      {% if not item.is_primary %}
+                        <form method="post" action="{{ url_for('admin_gallery_primary', product_id=product['id'], image_id=item.id) }}">
+                          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                          <button type="submit">Set main</button>
+                        </form>
+                        <form method="post" action="{{ url_for('admin_gallery_delete', product_id=product['id'], image_id=item.id) }}">
+                          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                          <button type="submit" class="text-danger">Delete</button>
+                        </form>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+              </td>
+              <td><button form="admin-update-{{ product['id'] }}">Save</button></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="panel-card wide-table">
+    <h2>Dealers</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Business</th><th>Owner</th><th>Email</th><th>Phone</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for dealer in dealers %}
+            <tr>
+              <td>{{ dealer['business_name'] }}</td>
+              <td>{{ dealer['owner_name'] }}</td>
+              <td>{{ dealer['email'] }}</td>
+              <td>{{ dealer['phone'] }}</td>
+              <td>{{ dealer['status'] }}</td>
+              <td>
+                <form method="post" action="{{ url_for('admin_dealer_status', dealer_id=dealer['id']) }}" class="table-form">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                  <select name="status">
+                    <option value="approved" {% if dealer['status']=='approved' %}selected{% endif %}>approved</option>
+                    <option value="paused" {% if dealer['status']=='paused' %}selected{% endif %}>paused</option>
+                  </select>
+                  <button>Save</button>
+                </form>
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="6">No dealers registered yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel-card wide-table">
+    <h2>Latest Orders</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>ID</th><th>Customer</th><th>Email</th><th>Total</th><th>Date</th></tr></thead>
+        <tbody>
+          {% for order in orders %}
+            <tr><td>#{{ order['id'] }}</td><td>{{ order['customer_name'] }}</td><td>{{ order['email'] }}</td><td>{{ rupee(order['total']) }}</td><td>{{ order['created_at'] }}</td></tr>
+          {% else %}
+            <tr><td colspan="5">No orders yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

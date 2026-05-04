@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="420" viewBox="0 0 600 420" role="img" aria-label="YOGA MAT">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="1" stop-color="#e2e8f0"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="420" rx="44" fill="url(#bg)"/>
+      <circle cx="95" cy="85" r="58" fill="#db2777" opacity=".13"/>
+      <circle cx="500" cy="330" r="72" fill="#db2777" opacity=".12"/>
+      
+        <path d="M175 270 C235 230 365 230 425 270 V315 C365 275 235 275 175 315Z" fill="#db2777"/>
+        <ellipse cx="300" cy="270" rx="125" ry="42" fill="#f9a8d4" opacity=".65"/>
+        <rect x="175" y="130" width="250" height="140" rx="34" fill="#db2777"/>
+      <rect x="120" y="352" width="360" height="42" rx="21" fill="#0f172a" opacity=".92"/>
+      <text x="300" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">YOGA MAT</text>
+    </svg>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Admin Login | SportStack{% endblock %}
+{% block content %}
+<section class="auth-shell compact-auth">
+  <div class="auth-copy">
+    <span class="eyebrow">admin control</span>
+    <h1>Admin Login</h1>
+    <p>Manage warehouse products, dealer list, and latest demo orders.</p>
+  </div>
+  <form class="auth-card" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>Admin Password<input type="password" name="password" required></label>
+    <button type="submit">Login Admin</button>
+    <p class="form-note">Default password: admin123. Change ADMIN_PASSWORD in .env for real use.</p>
+  </form>
+</section>
+{% endblock %}

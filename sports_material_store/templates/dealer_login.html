@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Dealer Login | SportStack{% endblock %}
+{% block content %}
+<section class="auth-shell compact-auth">
+  <div class="auth-copy">
+    <span class="eyebrow">dealer portal</span>
+    <h1>Login and manage your sports catalog</h1>
+    <p>After login, add sports products, update price and stock, or delete your own listings.</p>
+  </div>
+  <form class="auth-card" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>Email<input type="email" name="email" required></label>
+    <label>Password<input type="password" name="password" required></label>
+    <button type="submit">Login as Dealer</button>
+    <p>New seller? <a href="{{ url_for('dealer_register') }}">Register dealer</a></p>
+  </form>
+</section>
+{% endblock %}

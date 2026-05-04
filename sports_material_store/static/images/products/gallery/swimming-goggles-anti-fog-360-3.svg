@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-label="Swimming Goggles Anti Fog 360 frame 3">
+  <defs>
+    <linearGradient id="bg360" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef2ff"/><stop offset=".45" stop-color="#ffffff"/><stop offset="1" stop-color="#fff7ed"/>
+    </linearGradient>
+    <filter id="shadow360" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="26" stdDeviation="24" flood-color="#0f172a" flood-opacity="0.26"/></filter>
+  </defs>
+  <rect width="900" height="900" rx="72" fill="url(#bg360)"/>
+  <circle cx="185" cy="170" r="96" fill="#fef3c7" opacity=".8"/>
+  <circle cx="725" cy="735" r="128" fill="#dbeafe" opacity=".82"/>
+  <g filter="url(#shadow360)" transform="translate(450 300) scale(0.99 1) rotate(-2.0) translate(-450 -300)">
+    <path d="M305 270 C350 220 430 220 455 285 C430 355 340 355 305 270Z" fill="#93c5fd" stroke="#111827" stroke-width="9"/><path d="M445 285 C470 220 550 220 595 270 C560 355 470 355 445 285Z" fill="#93c5fd" stroke="#111827" stroke-width="9"/><path d="M455 285 H445" stroke="#111827" stroke-width="12"/>
+  </g>
+  <rect x="326" y="52" width="248" height="54" rx="27" fill="#111827" opacity="0.94"/>
+  <text x="450" y="88" text-anchor="middle" font-size="23" font-weight="900" fill="#fbbf24">360° VIEW 120°</text>
+  <rect x="146" y="606" width="608" height="112" rx="30" fill="#ffffff" opacity=".94"/>
+  <text x="450" y="640" text-anchor="middle" font-size="26" font-weight="900" fill="#111827">Swimming Goggles</text><text x="450" y="672" text-anchor="middle" font-size="26" font-weight="900" fill="#111827">Anti Fog</text>
+  <text x="450" y="760" text-anchor="middle" font-size="20" font-weight="800" fill="#64748b">Product angle frame 3 of 6</text>
+</svg>

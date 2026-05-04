@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>{% block title %}SportStack Marketplace{% endblock %}</title>
+  <link rel="preconnect" href="https://loremflickr.com">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <div class="top-strip">
+    <span>Sports material only marketplace</span>
+    <span>Local demo checkout</span>
+    <span>Dealer selling enabled</span>
+  </div>
+
+  <header class="main-header">
+    <a href="{{ url_for('index') }}" class="brand" aria-label="SportStack home">
+      <span class="brand-cube">SS</span>
+      <span>
+        <strong>SportStack</strong>
+        <small>Cricket • Football • Fitness • More</small>
+      </span>
+    </a>
+
+    <form class="search-bar" action="{{ url_for('index') }}" method="get">
+      <select name="category" aria-label="Category">
+        <option value="">All Sports</option>
+        {% for category in categories %}
+          <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+        {% endfor %}
+      </select>
+      <input name="q" value="{{ q|default('') }}" placeholder="Search cricket bat, football studs, dumbbells..." autocomplete="off">
+      <button type="submit">Search</button>
+    </form>
+
+    <nav class="header-actions">
+      {% if dealer_logged_in %}
+        <a href="{{ url_for('dealer_dashboard') }}" class="nav-pill">Dealer: {{ dealer_name }}</a>
+      {% else %}
+        <a href="{{ url_for('dealer_login') }}" class="nav-pill">Dealer Login</a>
+      {% endif %}
+      <a href="{{ url_for('cart_view') }}" class="cart-button">Cart <span id="cart-count">{{ cart_count }}</span></a>
+    </nav>
+  </header>
+
+  <nav class="category-ribbon" aria-label="Sports categories">
+    <a href="{{ url_for('index') }}">Today Deals</a>
+    {% for category in categories[:12] %}
+      <a href="{{ url_for('index', category=category) }}">{{ category }}</a>
+    {% endfor %}
+    <a href="{{ url_for('dealer_register') }}">Sell on SportStack</a>
+    <a href="{{ url_for('admin_login') }}">Admin</a>
+  </nav>
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <section class="flash-zone">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <button class="chat-launcher" id="chat-launcher" aria-label="Open AI sports shopping assistant">AI</button>
+  <section class="chat-panel" id="chat-panel" aria-label="AI sports shopping assistant">
+    <div class="chat-head">
+      <div>
+        <strong>SportBot</strong>
+        <small>OpenRouter AI + local fallback</small>
+      </div>
+      <button id="chat-close" aria-label="Close chat">×</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="bot-bubble">Hi boss, I can suggest only sports materials and help with cart, stock, dealers, and checkout.</div>
+    </div>
+    <form id="chat-form" class="chat-form">
+      <input id="chat-input" maxlength="1000" placeholder="Ask: best cricket bat under ₹3000" autocomplete="off">
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <footer class="site-footer">
+    <p><strong>SportStack</strong> is a local Python Flask sports marketplace demo. Product images load from internet URLs with a local fallback.</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

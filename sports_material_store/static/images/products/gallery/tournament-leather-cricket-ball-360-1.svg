@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-label="Tournament Leather Cricket Ball 360 frame 1">
+  <defs>
+    <linearGradient id="bg360" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef2ff"/><stop offset=".45" stop-color="#ffffff"/><stop offset="1" stop-color="#fff7ed"/>
+    </linearGradient>
+    <filter id="shadow360" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="26" stdDeviation="24" flood-color="#0f172a" flood-opacity="0.26"/></filter>
+  </defs>
+  <rect width="900" height="900" rx="72" fill="url(#bg360)"/>
+  <circle cx="165" cy="170" r="96" fill="#fef3c7" opacity=".8"/>
+  <circle cx="745" cy="735" r="128" fill="#dbeafe" opacity=".82"/>
+  <g filter="url(#shadow360)" transform="translate(450 300) scale(0.94 1) rotate(-10.0) translate(-450 -300)">
+    <circle cx="450" cy="290" r="116" fill="#b91c1c" stroke="#7f1d1d" stroke-width="12"/><path d="M374 205 C455 245 499 324 525 397" fill="none" stroke="#fff7ed" stroke-width="9" stroke-dasharray="20 16"/><path d="M527 194 C457 244 409 318 385 397" fill="none" stroke="#fff7ed" stroke-width="9" stroke-dasharray="20 16"/>
+  </g>
+  <rect x="326" y="52" width="248" height="54" rx="27" fill="#111827" opacity="0.94"/>
+  <text x="450" y="88" text-anchor="middle" font-size="23" font-weight="900" fill="#fbbf24">360° VIEW 0°</text>
+  <rect x="146" y="606" width="608" height="112" rx="30" fill="#ffffff" opacity=".94"/>
+  <text x="450" y="640" text-anchor="middle" font-size="26" font-weight="900" fill="#111827">Tournament Leather</text><text x="450" y="672" text-anchor="middle" font-size="26" font-weight="900" fill="#111827">Cricket Ball</text>
+  <text x="450" y="760" text-anchor="middle" font-size="20" font-weight="800" fill="#64748b">Product angle frame 1 of 6</text>
+</svg>

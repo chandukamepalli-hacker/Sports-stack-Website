@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Order Placed | SportStack{% endblock %}
+{% block content %}
+<section class="success-card reveal-up">
+  <div class="success-icon">✓</div>
+  <h1>Demo order placed successfully</h1>
+  <p>Order ID: <strong>#{{ order_id }}</strong></p>
+  <p>Total: <strong>{{ rupee(total) }}</strong></p>
+  <div class="receipt-list">
+    {% for item in items %}
+      <div><span>{{ item.qty }} × {{ item.name }}</span><strong>{{ rupee(item.line_total) }}</strong></div>
+    {% endfor %}
+  </div>
+  <a class="primary-cta" href="{{ url_for('index') }}">Continue Shopping</a>
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="420" viewBox="0 0 600 420" role="img" aria-label="WATER BOTTLE">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="1" stop-color="#e2e8f0"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="420" rx="44" fill="url(#bg)"/>
+      <circle cx="95" cy="85" r="58" fill="#0284c7" opacity=".13"/>
+      <circle cx="500" cy="330" r="72" fill="#0284c7" opacity=".12"/>
+      
+        <rect x="255" y="115" width="90" height="230" rx="30" fill="#0284c7"/>
+        <rect x="273" y="75" width="54" height="50" rx="12" fill="#0f172a"/>
+        <rect x="265" y="185" width="70" height="70" rx="18" fill="#e0f2fe" opacity=".75"/>
+      <rect x="120" y="352" width="360" height="42" rx="21" fill="#0f172a" opacity=".92"/>
+      <text x="300" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">WATER BOTTLE</text>
+    </svg>

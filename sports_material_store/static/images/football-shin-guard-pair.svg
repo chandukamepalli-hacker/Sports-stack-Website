@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="420" viewBox="0 0 600 420" role="img" aria-label="SHIN GUARDS">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="1" stop-color="#e2e8f0"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="420" rx="44" fill="url(#bg)"/>
+      <circle cx="95" cy="85" r="58" fill="#2563eb" opacity=".13"/>
+      <circle cx="500" cy="330" r="72" fill="#2563eb" opacity=".12"/>
+      
+        <path d="M220 105 C260 75 310 96 322 148 L342 322 C306 360 235 360 204 322 L218 148 C219 132 220 118 220 105Z" fill="#2563eb"/>
+        <path d="M365 110 C405 80 455 101 467 153 L487 327 C451 365 380 365 349 327 L363 153 C364 137 365 123 365 110Z" fill="#0f172a" opacity=".9"/>
+        <path d="M230 175 H330 M365 180 H475" stroke="#fff" stroke-width="12" opacity=".45"/>
+      <rect x="120" y="352" width="360" height="42" rx="21" fill="#0f172a" opacity=".92"/>
+      <text x="300" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">SHIN GUARDS</text>
+    </svg>
